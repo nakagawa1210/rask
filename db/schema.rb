@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_04_050454) do
+ActiveRecord::Schema.define(version: 2021_09_10_090334) do
 
   create_table "api_tokens", force: :cascade do |t|
     t.string "secret"
@@ -24,10 +24,12 @@ ActiveRecord::Schema.define(version: 2021_09_04_050454) do
   create_table "documents", force: :cascade do |t|
     t.text "content", null: false
     t.integer "creator_id"
-    t.datetime "due_at"
+    t.datetime "start_at"
+    t.datetime "end_at"
     t.integer "assigner_id"
     t.text "description"
     t.integer "project_id"
+    t.text "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_documents_on_project_id"
