@@ -34,7 +34,7 @@ class DocumentsController < ApplicationController
   def create
     @document = current_user.documents.build(document_params)
 
-    if @document.save #XXX: save! => save
+    if @document.save!
       flash[:success] = "文書を追加しました"
       redirect_to documents_path
     else
@@ -53,8 +53,7 @@ class DocumentsController < ApplicationController
   end
 
   def api_markdown
-    data = ::JayFlavoredMarkdownConverter.new(params[:text]).content
-    render json: {text: data}
+    send_data ::JayFlavoredMarkdownConverter.new(params[:text]).content, :type => 'text/html', :disposition => 'inline'
   end
 
   # DELETE /documents/1 or /documents/1.json

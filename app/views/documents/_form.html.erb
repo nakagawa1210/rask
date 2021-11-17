@@ -18,94 +18,65 @@
 
   <div class="field my-4">
     <%= form.label :start_at, "開始時刻", class: "text-xl block font-bold mb-2" %>
-    <%= form.datetime_field :start_at, class: "border-2 w-full", required: true%>
+    <%= form.datetime_field :start_at, class: "border-2 w-full" %>
   </div>
   
   <div class="field my-4">
     <%= form.label :end_at, "終了時刻", class: "text-xl block font-bold mb-2" %>
-    <%= form.datetime_field :end_at, class: "border-2 w-full", required: true %>
+    <%= form.datetime_field :end_at, class: "border-2 w-full" %>
   </div>
   
   <div class="field my-4">
     <%= form.label :location, "場所", class: "text-xl block font-bold mb-2" %>
-    <%= form.text_field :location, class: "border-2 w-full", required: true %>
+    <%= form.text_field :location, class: "border-2 w-full" %>
   </div>
 
   <div class="field my-4">
     <%= form.label :assigner_id, "作成者", class: "text-xl block font-bold mb-2" %>
-    <%= form.select :assigner_id, @users.map { |u| [u.name, u.id] }, {}, class: "border-2 w-full", required: true%>
+    <%= form.select :assigner_id, @users.map { |u| [u.name, u.id] }, {}, class: "border-2 w-full" %>
   </div>
 
   <div class="field my-4">
     <%= form.label :project_id, "プロジェクト名", class: "text-xl block font-bold mb-2" %>
-    <%= form.select :project_id, @projects.map { |p| [p.name, p.id] }, { include_blank: true }, class: "border-2 w-full", required: true %>
+    <%= form.select :project_id, @projects.map { |p| [p.name, p.id] }, { include_blank: true }, class: "border-2 w-full" %>
   </div>
   
-  <%# <ul class="nav nav-tabs" id="myTab" role="tablist"> %>
-  <%#   <li class="nav-item"> %>
-  <%#     <a class="nav-link active" id="write-tab" data-toggle="tab" href="#write" role="tab" aria-controls="write" aria-selected="true">Write</a> %>
-  <%#   </li> %>
-  <%#   <li class="nav-item"> %>
-  <%#     <a class="nav-link" id="preview-tab" data-toggle="tab" href="#preview" role="tab" aria-controls="preview" aria-selected="false">Preview</a> %>
-  <%#   </li> %>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="write-tab" data-toggle="tab" href="#write" role="tab" aria-controls="write" aria-selected="true">Write</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="preview-tab" data-toggle="tab" href="#preview" role="tab" aria-controls="preview" aria-selected="false">Preview</a>
+    </li>
   
-  <%# </ul> %>  
-  <%# <div class="tab-content" id="myTabContent"> %>
-  <%#   <div class="tab-pane fade show active" id="write" role="tabpanel" aria-labelledby="write-tab"> %>
-  <%#     <div class="field my-4" style="min-height: 300px"> %>
-	<%# <%= form.text_area :description, class: "border-2 w-full", rows: 10, id: "write-area", placeholder: "文書内容を入力してください" %1> %>
-  <%#     </div> %>
-  <%#   </div> %>
-  <%#   <div class="tab-pane fade" id="preview" role="tabpanel" aria-labelledby="preview-tab"> %>
-  <%#     <div class="field my-4"> %>
-  <%#       <div id="preview-area" style="height: 300px" class="overflow-y-scroll"> %>
-	<%# </div> %>
-  <%#     </div> %>
-  <%#   </div> %>
-  <%# </div> %>
-  
-<div class="tabs">
-  <input id="write" type="radio" name="tab_item" checked>
-  <label class="tab_item" for="write">Write</label>
-  <input id="preview" type="radio" name="tab_item">
-  <label class="tab_item" for="preview">Preview</label>
-  <div class="tab_content" id="write_content">
+  </ul>  
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="write" role="tabpanel" aria-labelledby="write-tab">
+      <div class="field my-4">
 	<%= form.text_area :description, class: "border-2 w-full", rows: 10, id: "write-area", placeholder: "文書内容を入力してください" %>
-  </div>
-  <div class="tab_content" id="preview_content">
-      <div id="preview-area" style="height: 300px" class="overflow-y-scroll">
       </div>
-</div>
-</div>
-
+    </div>
+    <div class="tab-pane fade" id="preview" role="tabpanel" aria-labelledby="preview-tab">
+      <div class="field my-4">
+	<div id="preview-area">
+	</div>
+      </div>
+    </div>
+  </div>
+  
   <div class="actions">
     <%= form.submit "保存", class: "bg-red-400 p-2 text-white rounded w-full" %>
   </div>
 
 
   <script>    
-    <%# $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { %>
-	<%# const text = document.getElementById("write-area").value; %>
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	const text = document.getElementById("write-area").value;
 
-	<%# $.post('/documents/api_markdown', {text: text}, function(data){ %>
-	    <%# $(document.getElementById("preview-area")).html(data) %>
-	<%# }); %>
-    <%# }); %>
-  document.getElementById('preview').onchange=function(){
-    const text = document.getElementById("write-area").value
-    const preview = document.getElementById("preview-area")
-
-const obj = {text: text};
-const method = "POST";
-const body = JSON.stringify(obj);
-const headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
-};
-<%# fetch("/documents/api_markdown", {method, headers, body}).then((res)=> res.json()).then((obj) => {preview.insertAdjacentHTML("afterbegin", obj.text)}).catch(console.error); %>
-fetch("/documents/api_markdown", {method, headers, body}).then((res)=> res.json()).then((obj) => {preview.innerHTML=obj.text}).catch(console.error);
-<%# fetch("/documents/api_markdown", {method, headers, body}).then((res)=> {console.log(res.json())}).catch(console.error); %>
-  }
+	$.post('/documents/api_markdown', {text: text}, function(data){
+	    $(document.getElementById("preview-area")).html(data)
+	});
+    });
   </script>
 
 <% end %>
