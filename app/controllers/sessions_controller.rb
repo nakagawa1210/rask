@@ -15,6 +15,18 @@ class SessionsController < ApplicationController
     redirect_to projects_url
   end
 
+  def login_with_passwd_auth
+    user = User.find_by(name: params[:name], provider: "local")
+    if user && user.authenticate(params[:password])
+      log_in user
+      flash[:success] = "ログインに成功しました"
+      redirect_to users_path
+    else
+      flash[:danger] = 'nameかpasswordが間違っています'
+      redirect_to projects_url
+    end
+  end
+
   def destroy
     log_out
     redirect_to projects_url

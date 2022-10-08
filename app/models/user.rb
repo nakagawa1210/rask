@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+    has_secure_password validations: false
     has_many :tasks, foreign_key: 'creator_id'
     has_many :projects
     has_many :api_tokens, foreign_key: 'user_id'
